@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -29,6 +32,7 @@ jobs:
       - name: Test PostgreSQL Connection
         run: |
           output=$(docker-compose -f database/docker-compose.yml exec -T postgres psql -h $DB_HOST -U $DB_USER -d $DB_NAME -W $DB_PASSWORD -c "SELECT 1" 2>&1)
+          echo "$output"
           if [[ $output == *"1 row"* ]]; then
             echo "Connection successful"
           else
