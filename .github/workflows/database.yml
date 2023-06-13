@@ -25,3 +25,13 @@ jobs:
 
       - name: Check PostgreSQL Container Status
         run: docker-compose -f database/docker-compose.yml ps
+        
+      - name: Test PostgreSQL Connection
+        run: |
+          output=$(docker-compose -f database/docker-compose.yml exec -T postgres psql -h $DB_HOST -U $DB_USER -d $DB_NAME -W $DB_PASSWORD -c "SELECT 1" 2>&1)
+          if [[ $output == *"1 row"* ]]; then
+            echo "Connection successful"
+          else
+            echo "Connection failed"
+            exit 1
+          fi  
