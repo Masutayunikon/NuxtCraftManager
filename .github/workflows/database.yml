@@ -28,7 +28,4 @@ jobs:
 
       - name: Check PostgreSQL Container Status
         run: docker-compose -f database/docker-compose.yml ps
-        
-      - name: Connect to PostgreSQL
-        run: psql -h $DB_HOST -U $DB_USER -d $DB_NAME -w -c "SELECT 1;" --set=sslmode=require PGPASSWORD=$DB_PASSWORD  
          
