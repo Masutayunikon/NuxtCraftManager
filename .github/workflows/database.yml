@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  launch-docker:
     runs-on: ubuntu-latest
     
     env:
@@ -29,13 +29,6 @@ jobs:
       - name: Check PostgreSQL Container Status
         run: docker-compose -f database/docker-compose.yml ps
         
-      - name: Test PostgreSQL Connection
-        run: |
-          output=$(docker-compose -f database/docker-compose.yml exec -T postgres psql -h $DB_HOST -U $DB_USER -d $DB_NAME -W $DB_PASSWORD -c "SELECT 1" 2>&1)
-          echo "$output"
-          if [[ $output == *"1 row"* ]]; then
-            echo "Connection successful"
-          else
-            echo "Connection failed"
-            exit 1
-          fi  
+      - name: Connect to PostgreSQL
+        run: psql -h $DB_HOST -U $DB_USER -p $DB_PORT -d $DB_NAME -w -c "SELECT 1;" --set=sslmode=require PGPASSWORD=$DB_PASSWORD  
+         
