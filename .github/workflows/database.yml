@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Docker Compose Database
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
   launch-docker:
     runs-on: ubuntu-latest
-    
+
     env:
       DB_HOST: $DB_HOST
       DB_USER: $DB_USER
@@ -28,4 +28,4 @@ jobs:
 
       - name: Check PostgreSQL Container Status
         run: docker-compose -f database/docker-compose.yml ps
-         
+
