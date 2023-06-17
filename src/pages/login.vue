@@ -31,7 +31,7 @@
         </div>
       </form>
 
-      <p v-if="message" :class="status === 201 ? 'text-green-500' : 'text-red-500'" class="mt-10 text-center text-sm">
+      <p v-if="message" :class="status === 200 ? 'text-green-500' : 'text-red-500'" class="mt-10 text-center text-sm">
         {{ message }}
       </p>
     </div>
