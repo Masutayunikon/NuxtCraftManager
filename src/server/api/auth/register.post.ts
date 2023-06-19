@@ -50,23 +50,9 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    TokenMap(sequelize);
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1 day' });
-
-    const tokenExpirationDate = new Date();
-    tokenExpirationDate.setDate(tokenExpirationDate.getDate() + 1);
-
-    const tokenRecord = await Token.create({
-        user_id: user.id,
-        token_value: token,
-        expiration_date: tokenExpirationDate,
-    });
-
     // set status code to 201)
     return {
         statusCode: 201,
         message: 'Successfully registered',
-        token,
     }
 })

@@ -2,15 +2,19 @@ import User, { UserMap } from "../../utils/models/user";
 import Token, { TokenMap } from "../../utils/models/token";
 import sequelize from "../../utils/sequelize";
 import jwt from 'jsonwebtoken';
+import { getHeader } from "h3"
 
 export default defineEventHandler(async (event) => {
     // check if url is /login
-    if (event.path === '/login' || event.path === '/api/auth/login') {
+    if (!event.path.startsWith('/api')) {
+        return;
+    }
+    if (event.path === '/api/auth/login') {
         return;
     }
 
-    // get token from cookie
-    const token = getCookie(event, 'token');
+    // get token from authorization header Bearer token
+    const token = getHeader(event, 'authorization')?.split(' ')[1];
 
     if (!token) {
         return sendRedirect(event, '/login');
