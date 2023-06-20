@@ -7,8 +7,9 @@
             <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
           </div>
           <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button type="button" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" @click="router.push('/register')">
-              Create User
+            <button type="button" class="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <PlusIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
+              New user
             </button>
           </div>
           <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -67,9 +68,10 @@
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ person.email }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ sqlDate(person.created_at) }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-0">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit<span class="sr-only">, {{ person.username }}</span></a
-                    >
+                    <button @click="deleteUser(person.id)" type="button" class="inline-flex items-center gap-x-1.5 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                      <TrashIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
+                      Delete
+                    </button>
                   </td>
                 </tr>
                 </tbody>
@@ -82,7 +84,7 @@
 </template>
 
 <script setup>
-import { ChevronDownIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, ArrowPathIcon, TrashIcon, PlusIcon } from '@heroicons/vue/20/solid'
 
 const isRefreshing = ref(false)
 
@@ -96,6 +98,26 @@ const refresh = () => {
     isRefreshing.value = false
   })
 }
+
+const deleteUser = async (id) => {
+  const response = await fetch("/api/users", {
+    method: 'DELETE',
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id
+    })
+  })
+
+  const data = await response.json()
+
+  if (data.statusCode === 200) {
+    refresh();
+  }
+}
+
 
 const getPeople = async () => {
   const response = await fetch('/api/users', {
