@@ -127,6 +127,17 @@ const getPeople = async () => {
       'Content-Type': 'application/json'
     }
   })
+
+  console.log(response)
+
+  if (response.redirected) {
+    // replace is response.url the base url to ""
+    const page = response.url.replace(document.location.origin, "")
+
+    router.push(page)
+    return []
+  }
+
   const data = await response.json()
 
   if (data.statusCode === 200) {

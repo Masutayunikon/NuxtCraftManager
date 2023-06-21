@@ -4,6 +4,7 @@ services:
     image: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./00_pg_boss_init.sql:/docker-entrypoint-initdb.d/00_pg_boss_init.sql
       - ./01_users.sql:/docker-entrypoint-initdb.d/01_users.sql
       - ./02_tokens.sql:/docker-entrypoint-initdb.d/02_tokens.sql
     ports:
