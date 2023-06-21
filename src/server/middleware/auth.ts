@@ -29,7 +29,13 @@ export default defineEventHandler(async (event) => {
         return sendRedirect(event, '/login');
     }
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    let decodedToken;
+
+    try {
+        decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+        return sendRedirect(event, '/login');
+    }
 
     if (!decodedToken) {
         return sendRedirect(event, '/login');
