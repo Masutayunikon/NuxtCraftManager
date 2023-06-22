@@ -63,8 +63,8 @@
             <li>
               <ul role="list" class="-mx-2 space-y-1">
                 <li v-for="item in navigation" :key="item.name">
-                  <NuxtLink :to="item.href" :class="[item.current ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
-                    <component :is="item.icon" :class="[item.current ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
+                  <NuxtLink :to="item.href" :class="[item.href === router.path ? 'bg-gray-50 text-indigo-600' : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                    <component :is="item.icon" :class="[item.href === router.path ? 'text-indigo-600' : 'text-gray-400 group-hover:text-indigo-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
                     {{ item.name }}
                   </NuxtLink>
                 </li>
@@ -93,24 +93,36 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { HomeIcon, UsersIcon, Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { HomeIcon, UsersIcon, Bars3Icon, XMarkIcon, ServerStackIcon } from '@heroicons/vue/24/outline'
 
-const navigation = [
+const router = useRoute();
+
+const navigation = ref([
   {
     name: "Dashboard",
     href: "/dashboard",
     icon: HomeIcon,
-    current: false
   },
   {
     name: "Users",
     href: "/users",
     icon: UsersIcon,
-    current: false
+  },
+  {
+    name: "Servers",
+    href: "/servers",
+    icon: ServerStackIcon,
   }
-]
+])
 
 const sidebarOpen = ref(false);
+
+// create navTo function who take href and set current to true
+const navTo = (href: string) => {
+  navigation.value.forEach((item) => {
+    item.current = item.href === href;
+  })
+}
 
 </script>
 
