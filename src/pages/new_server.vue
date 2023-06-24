@@ -8,6 +8,14 @@
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form class="space-y-6" action="/api/server" method="POST" ref="form">
+
+          <div>
+            <label for="version" class="block text-sm font-medium leading-6 text-gray-900">Server name</label>
+            <div class="mt-2">
+              <input type="text" v-model="name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-1.5" />
+            </div>
+          </div>
+
           <div>
             <label for="type" class="block text-sm font-medium leading-6 text-gray-900">Type</label>
             <div class="mt-2">
@@ -26,6 +34,20 @@
             <label for="version" class="block text-sm font-medium leading-6 text-gray-900">Version</label>
             <div class="mt-2">
               <dropdown v-if="versions && versions.length" v-model="version" :items="versions" />
+            </div>
+          </div>
+
+          <div>
+            <label for="version" class="block text-sm font-medium leading-6 text-gray-900">Ram minimum</label>
+            <div class="mt-2">
+              <input type="number" v-model="min_ram" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-1.5" />
+            </div>
+          </div>
+
+          <div>
+            <label for="version" class="block text-sm font-medium leading-6 text-gray-900">Ram maximum</label>
+            <div class="mt-2">
+              <input type="number" v-model="max_ram" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-1.5" />
             </div>
           </div>
 
@@ -56,6 +78,10 @@ const versions : Ref = ref<{id: number, name: string}[]>([]);
 const version = ref(null)
 const type = ref(null)
 const category = ref(null)
+const min_ram = ref(512)
+const max_ram = ref(2048)
+const name = ref(null)
+
 
 let allTypes = [];
 
@@ -124,9 +150,13 @@ onMounted(() => {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       },
       body: JSON.stringify({
+        token: localStorage.getItem('token'),
+        name: name.value,
         type: type.value.name,
         category: category.value.name,
-        version: version.value.name
+        version: version.value.name,
+        memory_min: min_ram.value,
+        memory_max: max_ram.value
       })
     })
 

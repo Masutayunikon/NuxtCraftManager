@@ -6,6 +6,7 @@ import { getHeader } from "h3"
 
 export default defineEventHandler(async (event) => {
     // check if url is /login
+    return;
     if (!event.path.startsWith('/api')) {
         return;
     }

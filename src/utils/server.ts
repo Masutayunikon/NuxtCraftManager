@@ -1,9 +1,9 @@
 import fs from 'fs';
 import * as https from "https";
 
-export const serverCreate = async (type: string, category: string, version: string) => {
+export const serverCreate = async (idServer: string, type: string, category: string, version: string) => {
     // create a directory in ./ named testlol
-    const path = `./servers/${type}/${category}/${version}`
+    const path = `./servers/${idServer}`;
     fs.mkdirSync(path, { recursive: true });
 
     // download the server jar from https://serverjars.com/api/fetchJar/${type}/${category}/${version}
