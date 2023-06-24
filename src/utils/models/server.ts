@@ -3,6 +3,9 @@ import { Model, Sequelize, DataTypes } from 'sequelize';
 export default class Server extends Model {
     public id!: number
     public server_id: string
+    public type: string
+    public category: string
+    public version: string
     public name: string
     public memory_min: number
     public memory_max: number
@@ -16,6 +19,9 @@ CREATE TABLE servers (
                          id SERIAL,
                          server_id VARCHAR(255) NOT NULL,
                          name VARCHAR(255) NOT NULL,
+                         type VARCHAR(50) NOT NULL,
+                         category VARCHAR(50) NOT NULL,
+                         version VARCHAR(50) NOT NULL,
                          memory_min INTEGER,
                          memory_max INTEGER,
                          state VARCHAR(20),
@@ -24,47 +30,56 @@ CREATE TABLE servers (
 );
 
 
- */
+*/
 
 export const ServerMap = (sequelize: Sequelize) => {
-    Server.init(
-        {
-            id: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            server_id: {
-                type: DataTypes.STRING(255),
-                allowNull: false,
-            },
-            name: {
-                type: DataTypes.STRING(255),
-                allowNull: false,
-            },
-            memory_min: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            memory_max: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            state: {
-                type: DataTypes.STRING(20),
-                allowNull: false,
-            },
-            user_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-        }, {
-            sequelize,
-            tableName: 'servers',
-            timestamps: false,
+    Server.init({
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        server_id: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        category: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        version: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        memory_min: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        memory_max: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        state: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
-    );
+    }, {
+        sequelize,
+        tableName: 'servers',
+        timestamps: false
+    });
     Server.sync();
-};
-
+}
 

@@ -5,4 +5,6 @@ export default defineNuxtConfig({
   tailwindcss: {
     exposeConfig: true,
   },
+  plugins: [
+  ]
 })
