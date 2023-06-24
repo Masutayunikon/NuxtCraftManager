@@ -56,6 +56,25 @@ const versions : Ref = ref<{id: number, name: string}[]>([]);
 const version = ref(null)
 const type = ref(null)
 const category = ref(null)
+const ram = [
+    "1GB",
+    "2GB",
+    "4GB",
+    "6GB",
+    "8GB",
+    "10GB",
+    "12GB",
+    "14GB",
+    "16GB",
+    "18GB",
+    "20GB",
+    "22GB",
+    "24GB",
+    "26GB",
+    "28GB",
+    "30GB",
+    "32GB",
+];
 
 let allTypes = [];
 
